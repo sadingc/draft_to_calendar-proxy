@@ -151,19 +151,6 @@ async def message_handler(client: Client, message: Message):
         await message.reply("Bienvenido {}".format(message.from_user.first_name))
         return
 
-    # Comprobar que el usuario esté en el grupo o está autorizado
-    if not url_list.get(uid):
-        # url_list[uid] = {"proxy": "", "urls": []}
-        # return
-        group_members = client.get_chat_members(bot_admin_group)
-        auth = False
-        async for member in group_members:
-            if uid == member.user.id:
-                auth = True
-                url_list[uid] = {"proxy": "", "urls": []}
-        if auth == False:
-            return
-
     # Poner Proxy
     if msg.lower().startswith("/proxy"):
         try:
@@ -268,6 +255,5 @@ async def message_handler(client: Client, message: Message):
 print("Starting...")
 bot.start()
 print("Ready.")
-bot.send_message(bot_admin_group, "Bot reiniciado.")
 loop: asyncio.AbstractEventLoop = asyncio.get_event_loop_policy().get_event_loop()
 loop.run_forever()
